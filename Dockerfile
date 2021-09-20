@@ -40,5 +40,5 @@ EXPOSE 4000
 
 # 运行命令
 #CMD ["/bin/bash"]
-#CMD ["/usr/bin/env", "hexo", "server"]
-CMD ["/bin/sh"]
+CMD ["/usr/bin/env", "hexo", "server"]
+#CMD ["/bin/sh"]
