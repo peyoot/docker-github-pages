@@ -1,0 +1,23 @@
+version: '3'
+services:
+  hexo:
+    restart: always
+    build: .
+    image: hexo-site:github_pages
+    container_name: docker-github-pages
+#    environment: 
+#      - HEXO_REPO=hexo-site
+    ports:
+      - "4000:4000"
+    volumes:
+     - $HOME/.ssh:/root/.ssh
+     - $PWD/hexo-site/.deploy_git:/hexo/.deploy_git
+     - $PWD/hexo-site/scaffolds:/hexo/scaffolds
+     - $PWD/hexo-site/source:/hexo/source
+     - $PWD/hexo-site/themes:/hexo/themes
+     - $PWD/hexo-site/_config.yml:/hexo/_config.yml
+#    entrypoint:
+#      - sh
+#      - /build_and_run.sh
+networks:
+  default:
