@@ -7,33 +7,54 @@
 #    dockerfile for hexo
 #
 # *****************************************************************************
-
-
 # 基础镜像
 FROM node:14-alpine
 
+ARG GITHUB_USER
+ARG GITHUB_EMAIL
+ARG GITHUB_TOKEN
+
 # 维护者信息
 MAINTAINER peyoot <peyoot@hotmail.com>
+LABEL author=peyoot site=https://peyoot.github.io/docker-github-pages
+#ADD build_and_run.sh build_and_run.sh
+
 
 # 工作目录
 WORKDIR /hexo
 
-RUN echo "Asia/Shanghai" > /etc/timezone \
-    && apk add --no-cache git \
+#RUN echo "Asia/Shanghai" > /etc/timezone \
+RUN apk add --no-cache git \
+# 安装pnpm
+    && npm install -g pnpm \
+    && pnpm add -g pnpm \
 # 安装Hexo
-    && npm install hexo-cli -g \
-    && hexo init . \
-#RUN npm install
-#    && echo "https://mirrors.ustc.edu.cn/alpine/v3.9/main/" > /etc/apk/repositories  \
-#    && npm config set registry https://registry.npm.taobao.org \
-    && npm install hexo-deployer-git \
-    && npm install hexo-generator-search \
-    && npm install hexo-render-pug \
-    && npm install hexo-renderer-stylus \
-    && npm install hexo-wordcount \
+    && pnpm add hexo-cli -g \
+#    && hexo init temp \
+#    && if [ ! -d /hexo/source ] ; then hexo init temp ; ls -A temp|grep -v _config.yml |xargs -i cp -rp temp/{} ./ ; rm -rf temp ; fi \
+#    && hexo init . \
+    && pnpm add hexo-deployer-git \
+    && pnpm add hexo-generator-search \
+    && pnpm add hexo-render-pug \
+    && pnpm add hexo-renderer-stylus \
+    && pnpm add hexo-wordcount 
+RUN pnpm install \
 # 设置git
-    && git config --global user.name "$GITHUB_USER" \
-    && git config --global user.email "$GITHUB_EMAIL" 
+    && git config --global user.name "${GITHUB_USER}" \
+    && git config --global user.email "${GITHUB_EMAIL}" \ 
+    && if [ ! -d /hexo/source ] ; then hexo init temp ; ls -A temp|grep -v _config.yml |xargs -i cp -rp temp/{} ./ ; rm -rf temp ; fi \
+    && echo "hexo site is ready"
+
+#    && hexo init . 
+#    && cd temp
+#    && ls -A temp|grep -v _config.yml |xargs -i cp -rp temp/{} ./ 
+#    && hexo new testabc \
+#    && hexo g -d
+#    && npm config set registry https://registry.npm.taobao.org \
+#    && chmod 777 /build_and_run.sh
+
+# 挂载volume
+VOLUME ["/hexo/.deploy_git", "/hexo/scaffolds", "/hexo/source", "/hexo/themes"]
 
 # 映射端口
 EXPOSE 4000
@@ -42,3 +63,4 @@ EXPOSE 4000
 #CMD ["/bin/bash"]
 CMD ["/usr/bin/env", "hexo", "server"]
 #CMD ["/bin/sh"]
+#ENTRYPOINT ["/usr/bin/env","sh","/build_and_run.sh"]

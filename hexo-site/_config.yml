@@ -101,6 +101,10 @@ theme: landscape
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
+
 deploy:
-  type: 'git'
-  repo: 
+  - type: git
+    repo:
+      github:
+        url:  https://oauth2:${GIHUB_TOKEN}@github.com/peyoot/peyoot.github.io
+        branch: gh-pages
