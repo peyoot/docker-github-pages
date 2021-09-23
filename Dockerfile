@@ -17,7 +17,8 @@ ARG GITHUB_EMAIL
 # 维护者信息
 MAINTAINER peyoot <peyoot@hotmail.com>
 LABEL author=peyoot site=https://peyoot.github.io/docker-github-pages
-#ADD build_and_run.sh build_and_run.sh
+
+COPY entrypoint.sh entrypoint.sh
 
 
 # 工作目录
@@ -42,25 +43,24 @@ RUN pnpm install \
 # 设置git
     && git config --global user.name "${GITHUB_USER}" \
     && git config --global user.email "${GITHUB_EMAIL}" \ 
-    && if [ ! -d /hexo/source ] ; then hexo init temp ; ls -A temp|grep -v _config.yml |xargs -i cp -rp temp/{} ./ ; rm -rf temp ; fi \
+    && if [ ! -d /hexo/source ] ; then \
+         if [ -z "${GITHUB_REPO}" ] ; then \
+           git clone git@github.com:${GITHUB_USER}/${GITHUB_REPO} temp; \
+         else hexo init temp ; \
+         fi; \
+       ls -A temp|grep -v _config.yml |xargs -i cp -rf temp/{} ./ ; \
+       rm -rf temp ; \
+       fi \
     && echo "hexo site is ready"
 
-#    && hexo init . 
-#    && cd temp
-#    && ls -A temp|grep -v _config.yml |xargs -i cp -rp temp/{} ./ 
-#    && hexo new testabc \
-#    && hexo g -d
-#    && npm config set registry https://registry.npm.taobao.org \
-#    && chmod 777 /build_and_run.sh
 
 # 挂载volume
-VOLUME ["/hexo/.deploy_git", "/hexo/scaffolds", "/hexo/source", "/hexo/themes", "/root/.ssh"]
+VOLUME ["/hexo/.deploy_git", "/hexo/scaffolds", "/hexo/source", "/hexo/themes","/root/.ssh"]
 
 # 映射端口
 EXPOSE 4000
 
 # 运行命令
-#CMD ["/bin/bash"]
-CMD ["/usr/bin/env", "hexo", "server"]
+#CMD ["/usr/bin/env", "hexo", "server"]
 #CMD ["/bin/sh"]
-#ENTRYPOINT ["/usr/bin/env","sh","/build_and_run.sh"]
+ENTRYPOINT ["/usr/bin/env","sh","/entrypoint.sh"]
