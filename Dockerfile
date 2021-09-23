@@ -12,7 +12,7 @@ FROM node:14-alpine
 
 ARG GITHUB_USER
 ARG GITHUB_EMAIL
-ARG GITHUB_TOKEN
+#ENV GITHUB_TOKEN=${GITHUB_TOKEN}
 
 # 维护者信息
 MAINTAINER peyoot <peyoot@hotmail.com>
@@ -24,7 +24,7 @@ LABEL author=peyoot site=https://peyoot.github.io/docker-github-pages
 WORKDIR /hexo
 
 #RUN echo "Asia/Shanghai" > /etc/timezone \
-RUN apk add --no-cache git \
+RUN apk add --update --no-cache git openssh \
 # 安装pnpm
     && npm install -g pnpm \
     && pnpm add -g pnpm \
@@ -54,7 +54,7 @@ RUN pnpm install \
 #    && chmod 777 /build_and_run.sh
 
 # 挂载volume
-VOLUME ["/hexo/.deploy_git", "/hexo/scaffolds", "/hexo/source", "/hexo/themes"]
+VOLUME ["/hexo/.deploy_git", "/hexo/scaffolds", "/hexo/source", "/hexo/themes", "/root/.ssh"]
 
 # 映射端口
 EXPOSE 4000

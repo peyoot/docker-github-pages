@@ -7,18 +7,17 @@ services:
       args:
         GITHUB_USER: ${GITHUB_USER}
         GITHUB_EMAIL: ${GITHUB_EMAIL}
-        GITHUB_TOKEN: ${GITHUB_TOKEN}
     image: hexo-site:github_pages
     container_name: docker-github-pages
-#    environment: 
-#      - GITHUB_USER=${GITHUB_USER}
-#      - GITHUB_EMAIL=${GITHUB_EMAIL}
+    environment: 
+      - GITHUB_USER=${GITHUB_USER}
+      - GITHUB_EMAIL=${GITHUB_EMAIL}
 #      - GITHUB_TOKEN=${GITHUB_TOKEN}
-#      - GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+      - GITHUB_REPO=${GITHUB_REPO}
     ports:
       - "4000:4000"
     volumes:
-#     - $HOME/.ssh:/root/.ssh
+     - $HOME/.ssh:/root/.ssh
      - $PWD/hexo-site/.deploy_git:/hexo/.deploy_git
      - $PWD/hexo-site/scaffolds:/hexo/scaffolds
      - $PWD/hexo-site/source:/hexo/source
