@@ -39,23 +39,23 @@ RUN apk add --update --no-cache git openssh \
     && pnpm add hexo-render-pug \
     && pnpm add hexo-renderer-stylus \
     && pnpm add hexo-wordcount 
-RUN pnpm install \
-# 设置git
-    && git config --global user.name "${GITHUB_USER}" \
-    && git config --global user.email "${GITHUB_EMAIL}" \ 
-    && if [ ! -d /hexo/source ] ; then \
-         if [ -z "${GITHUB_REPO}" ] ; then \
-           git clone git@github.com:${GITHUB_USER}/${GITHUB_REPO} temp; \
-         else hexo init temp ; \
-         fi; \
-       ls -A temp|grep -v _config.yml |xargs -i cp -rf temp/{} ./ ; \
-       rm -rf temp ; \
-       fi \
-    && echo "hexo site is ready"
+#RUN pnpm install \
+## 设置git
+#    && git config --global user.name "${GITHUB_USER}" \
+#    && git config --global user.email "${GITHUB_EMAIL}" \ 
+#    && if [ ! -d /hexo/source ] ; then \
+#         if [ -z "${GITHUB_REPO}" ] ; then \
+#           git clone git@github.com:${GITHUB_USER}/${GITHUB_REPO} temp; \
+#         else hexo init temp ; \
+#         fi; \
+#       ls -A temp|grep -v _config.yml |xargs -i cp -rf temp/{} ./ ; \
+#       rm -rf temp ; \
+#       fi \
+#    && echo "hexo site is ready"
 
 
 # 挂载volume
-VOLUME ["/hexo/.deploy_git", "/hexo/scaffolds", "/hexo/source", "/hexo/themes","/root/.ssh"]
+#VOLUME ["/hexo/.deploy_git", "/hexo/scaffolds", "/hexo/source", "/hexo/themes","/root/.ssh"]
 
 # 映射端口
 EXPOSE 4000

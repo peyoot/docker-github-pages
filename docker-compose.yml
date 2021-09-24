@@ -17,14 +17,16 @@ services:
     ports:
       - "4000:4000"
     volumes:
-     - $HOME/.ssh:/root/.ssh
-     - $PWD/hexo-site/.deploy_git:/hexo/.deploy_git
-     - $PWD/hexo-site/scaffolds:/hexo/scaffolds
-     - $PWD/hexo-site/source:/hexo/source
-     - $PWD/hexo-site/themes:/hexo/themes
-     - $PWD/hexo-site/_config.yml:/hexo/_config.yml
+      - $HOME/.ssh:/root/.ssh
+      - $PWD/hexo-site/.deploy_git:/hexo/.deploy_git
+      - $PWD/hexo-site/scaffolds:/hexo/scaffolds
+      - $PWD/hexo-site/source:/hexo/source
+      - $PWD/hexo-site/themes:/hexo/themes
+      - $PWD/hexo-site/_config.yml:/hexo/_config.yml
 #    entrypoint:
-#      - sh
-#      - /build_and_run.sh
+#     - sh
+#      - /entrypoint.sh
+    stdin_open: true
+    tty: true
 networks:
   default:

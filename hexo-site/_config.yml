@@ -1,3 +1,4 @@
+
 # Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
@@ -101,10 +102,5 @@ theme: landscape
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
-
 deploy:
-  - type: git
-    repo:
-      github:
-        url:  git@github.com:peyoot/peyoot.github.io
-        branch: gh-pages
+  type: ''
