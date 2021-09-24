@@ -1,22 +1,27 @@
 ### 运行hexo，并部署到github pages上的docker-compose项目
-基于node:14-alpine镜像，拉取hexo和github pages项目到容器中，在build_and_run.sh脚本中修改你的github帐号。
-hexo及其主题的可配置和正常hexo类似。这个容器将是你hexo的web服务器，并且你可以手动部署到github pages上。
+基于node:14-alpine镜像，支持本地hexo和docker来运维和部署。只需在.env中指定GITHUB_REPO就可以自动拉取相关的库进行部署。
+hexo及其主题的可配置和正常hexo类似。这个容器将是你hexo的web服务器，并且你可以部署到github pages上。
 
 #### 用法
 1. 拉取项目
 ```
 git clone https://github.com/peyoot/docker-github-pages.git
 ```
-2. 根据需要修改hexo及其主题的配置，要部署到github pages上，修改主题的配置文件_config.yml当中的deploy区块的代码库名称。
-3. 修改build_and_run.sh，使用您自己的github帐号。
-4. 如果您有多个站点要使用这个容器工具，请复制一份，并在docker-compose.yml中把容器名改为独一无二的名称（默认是docker-github-pages）
-5. 如果不是用来建立新博客或项目网站，而是要使用本工具编译已有的网站或github pages项目，只需把你的项目文件夹改名为hexo-site即可使用，如：
+2. 根据需要修改hexo及其主题的配置，要部署到github pages上，请在环境配置文件.env中配置这三个变量：
+GITHUB_USER
+GITHUB_EMAIL
+GITHUB_REPO
+其中如果指定GITHUB_REPO会拉取该REPO到本地hexo-site目录中。
+运行docker-compose up -d来生成hexo server服务。
+要进行部署，请在github上添加您电脑上的ssh key，然后按步骤6的方式进入容器内部执行hexo clean && hexo deploy
 
-```
-mv hexo-site hexo-site-bk
-git clone your-site
-mv your-site hexo-site
-```
+3. 如果您有多个站点要使用这个容器工具，请复制一份，并在docker-compose.yml中把容器名改为独一无二的名称（默认是docker-github-pages）
+
+4. 如果不用docker，而是想在电脑host上运行hexo，一样的效果，进入hexo-site执行即可。（确保node14已经安装，hexo-cli也全局安装了）
+<code>
+pnpm install
+hexo server
+</code>
 
 第一次使用，运行
 
@@ -31,11 +36,11 @@ docker-compose up --force-recreate --build
 ```
  docker-compose up -d
 ```
-站点容器就能准备好。您可以推送所有源码到github项目的master分支中。
+站点容器就能准备好。
 
-5. 部署到github pages:
+6. 部署到github pages:
 运行
 ```
 docker exec -it docker-github-pages sh
-在容器中进入项目目录，运行hexo deploy来推送网站内容到gh-pages分支上，以完成部署。
 ```
+在容器中直接运行hexo deploy来推送网站内容到gh-pages分支上，以完成部署。
