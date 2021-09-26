@@ -15,16 +15,31 @@ if [ ! -d /hexo/source/_posts ] ; then
       cp -af temprepo/. temp ;
   else 
       echo "no github repo provided,a new hexo site generated" ;
-#      hexo init temp ; 
   fi ; 
+
+  if [ -n "{HEXO_THEME_NAME}" ] ; then
+    echo "your have specified the theme" ;
+    if [ "`ls -A /hexo/themes`" = "" ] ; then
+        echo "no theme available, will download the specified one" ;
+        git clone ${HEXO_THEME_REPO} temp/themes/${HEXO_THEME_NAME} :
+        sed -i "s/^theme: landscape/theme: ${HEXO_THEME_NAME}/" temp/_config.yml ;
+    else
+        echo "you've got a theme in the folder, nothing changed" ;
+    fi;
+  else
+    echo "no theme specified, please manually download and config it." ;
+
+  fi;
+
 #  ls -A temp|xargs -i cp -rf temp/{} ./ ;
-  ls -A temp|grep -v _config.yml |xargs -i cp -af temp/{} ./ ;
+  ls -A temp|grep -v _config.yml |grep -v package.json |xargs -i cp -af temp/{} ./ ;
   echo "" > _config.yml ;
   cat temp/_config.yml >>_config.yml ;
   rm -rf temp* ;
 else
   echo "hexo-site with source posts mounted" ;
 fi ;
+
 echo "hexo site is ready!" 
 #hexo server
 #hexo clean
