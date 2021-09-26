@@ -12,7 +12,7 @@ if [ ! -d /hexo/source/_posts ] ; then
   if [ -n "${GITHUB_REPO}" ] ; then 
       echo "you have specified the github repo" ;
       git clone git@github.com:${GITHUB_USER}/${GITHUB_REPO} temprepo ; 
-      cp -af temprepo/. temp
+      cp -af temprepo/. temp ;
   else 
       echo "no github repo provided,a new hexo site generated" ;
 #      hexo init temp ; 
@@ -32,3 +32,4 @@ echo "hexo site is ready!"
 #hexo d
 hexo server
 #top
+#
