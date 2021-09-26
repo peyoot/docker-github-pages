@@ -8,7 +8,8 @@ git config --global user.name "${GITHUB_USER}"
 git config --global user.email "${GITHUB_EMAIL}"
 if [ ! -d /hexo/source/_posts ] ; then
   echo "empty hexo-site without any source posts" ;
-  hexo init temp ;
+#  hexo init temp ;
+  git clone https://github.com/hexojs/hexo-starter.git temp ;
   if [ -n "${GITHUB_REPO}" ] ; then 
       echo "you have specified the github repo" ;
       git clone git@github.com:${GITHUB_USER}/${GITHUB_REPO} temprepo ; 

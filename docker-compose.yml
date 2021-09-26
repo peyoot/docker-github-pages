@@ -12,8 +12,9 @@ services:
     environment: 
       - GITHUB_USER=${GITHUB_USER}
       - GITHUB_EMAIL=${GITHUB_EMAIL}
-#      - GITHUB_TOKEN=${GITHUB_TOKEN}
       - GITHUB_REPO=${GITHUB_REPO}
+      - HEXO_THEME_NAME=${HEXO_THEME_NAME}
+      - HEXO_THEME_REPO=${HEXO_THEME_REPO}
     ports:
       - "4000:4000"
     volumes:
