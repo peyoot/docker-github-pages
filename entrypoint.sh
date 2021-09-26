@@ -46,6 +46,6 @@ echo "hexo site is ready!"
 #hexo clean
 #hexo g
 #hexo d
-hexo server
-#top
+#hexo server
+top
 #
