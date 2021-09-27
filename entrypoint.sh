@@ -23,7 +23,13 @@ if [ ! -d /hexo/source/_posts ] ; then
     if [ "`ls -A /hexo/themes`" = "" ] ; then
         echo "no theme available, will download the specified one" ;
         git clone ${HEXO_THEME_REPO} temp/themes/${HEXO_THEME_NAME} ;
-        sed -i "s/^theme: landscape/theme: ${HEXO_THEME_NAME}/" temp/_config.yml ;
+#        sed -i "s/^theme: landscape/theme: ${HEXO_THEME_NAME}/" temp/_config.yml ;
+        sed -i "/^theme:/ c\theme: ${HEXO_THEME_NAME}" temp/_config.yml ;
+        sed -i '/^deploy:/,$d' temp/_config.yml ;
+        echo "deploy:" >> temp/_config.yml ;
+        echo "  type: git" >> temp/_config.yml ;
+        echo "  repo: git@github.com:${GITHUB_USER}/${GITHUB_REPO}" >> temp/_config.yml ;
+        echo "  branch: gh-pages" >> temp/_config.yml ; 
     else
         echo "you've got a theme in the folder, nothing changed" ;
     fi;

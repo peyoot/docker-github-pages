@@ -25,7 +25,7 @@ services:
       - $PWD/hexo-site/themes:/hexo/themes
       - $PWD/hexo-site/_config.yml:/hexo/_config.yml
       - $PWD/hexo-site/package.json:/hexo/package.json
-      - $PWD/hexo-site/pnpm-lock.yaml:/hexo/pnpm-lock.yaml
+#      - $PWD/hexo-site/pnpm-lock.yaml:/hexo/pnpm-lock.yaml
 #    entrypoint:
 #     - sh
 #      - /entrypoint.sh
