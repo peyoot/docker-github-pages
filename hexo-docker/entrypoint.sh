@@ -43,6 +43,7 @@ if [ ! -d /hexo/source/_posts ] ; then
   echo "" > _config.yml ;
   cat temp/_config.yml >>_config.yml ;
   rm -rf temp* ;
+  git init .deploy_git ;
 else
   echo "hexo-site with source posts mounted" ;
 fi ;
