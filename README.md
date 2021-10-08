@@ -7,6 +7,9 @@ Do what hexo need to do in your other hexo config and theme. config It will be y
 在docker-compose中运行hexo，并部署到github pages上，请查阅[中文文档](README.zh-CN.md)了解用法。
 
 
+if you try to maintain both hexo and docker-hexo version then better to push docker-github-page as "docker" branch and hexo-site as "master/main" branch. 
+The static site should always set as "gh-pages" branch
+
 How to Start:
 
 1. Do whatever config change that hexo and it's theme needs.To deploy to github page, please specify the github account and repo name in .env file.
