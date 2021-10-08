@@ -3,7 +3,7 @@ services:
   hexo:
 #    restart: always
     build:
-      context: .
+      context: hexo-docker
       args:
         GITHUB_USER: ${GITHUB_USER}
         GITHUB_EMAIL: ${GITHUB_EMAIL}
@@ -24,7 +24,7 @@ services:
       - $PWD/hexo-site/source:/hexo/source
       - $PWD/hexo-site/themes:/hexo/themes
       - $PWD/hexo-site/_config.yml:/hexo/_config.yml
-      - $PWD/hexo-site/package.json:/hexo/package.json
+#      - $PWD/hexo-site/package.json:/hexo/package.json
 #      - $PWD/hexo-site/pnpm-lock.yaml:/hexo/pnpm-lock.yaml
 #    entrypoint:
 #     - sh
